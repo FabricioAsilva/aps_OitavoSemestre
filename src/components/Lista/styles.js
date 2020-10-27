@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container= styled.div`
 width:250px;
 height: 200px;
-background-color: #BEE9B6;
+background-color: #ffff;
 box-shadow: -3px 1px 13px -2px rgba(0,0,0,0.73);
 border-radius: 10px;
 
@@ -27,4 +27,7 @@ display: flex;
 align-items: center;
 justify-content: center;
 flex-direction: column;
+h3 {
+    color:#20295F;
+}
 `

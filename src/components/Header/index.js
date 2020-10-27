@@ -1,5 +1,6 @@
 import React from 'react';
 import * as S from './styles';
+import {Link}from 'react-router-dom';
 import logo from '../../assets/logo.png';
 
 function Header() {
@@ -9,8 +10,9 @@ function Header() {
         <img src={logo} alt="Logo"/>
       </S.LeftSide>
       <S.RightSide>
-        <a href="#">INICIO</a>
-        <a href="#">ADICIONAR</a>
+      <Link to="/" >HOME</Link>
+        <Link to="/aps" >ADICIONAR</Link>
+       
       
       </S.RightSide>
     </S.Container>

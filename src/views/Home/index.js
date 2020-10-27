@@ -1,4 +1,5 @@
 import React, { useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
 
 import api from '../../services/api';
 
@@ -27,7 +28,9 @@ function Home(){
       <S.Content>
           {
             estado.map(b => (
+              <Link to= {`/aps/${b._id}`}>
               <Lista key={b._id} tipo={b.tipo}  titulo={b.titulo}/>
+              </Link>
               ))
           }
           
