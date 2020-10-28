@@ -1,25 +1,31 @@
 import React, { useState, useEffect} from 'react';
-import {Redirect} from 'react-router-dom';
+import {useLocation, useHistory} from 'react-router-dom';
 //import api from '../../services/api';
 import typeIcons from '../../utils/typeIcons';
 import Header from '../../components/Header';
 import * as S from './styles';
 import api from '../../services/api';
 
-function Exibir({match}){
-    const[redirect, setRedirect] = useState(false);
+const  Exibir = (props) => {
+    //const[redirect, setRedirect] = useState(false);
     const [tipo, setTipo] = useState();
     //const [id, setId] = useState();
     const [titulo, setTitulo] = useState();
     const [descricao, setDescricao] = useState();
-
+    const history = useHistory();
+    const location = useLocation();
+    console.log(location.pathname);
+    let  id = 0;
     async function Caregar(){
-        await api.get(`/${match.params.id}`)
-        .then(response => {
-           setTipo(response.data.tipo)
-           setTitulo(response.data.titulo)
-           setDescricao(response.data.descricao)
-        })
+        id  = props.match.params.id;
+      //  if (id > 0 ) {
+            await api.get(`/aps/${id}`)
+            .then(response => {
+               setTipo(response.data.tipo)
+               setTitulo(response.data.titulo)
+               setDescricao(response.data.descricao)
+            })
+       // }
     }
     async function Salva(){
         //Validação dos dados
@@ -29,13 +35,13 @@ function Exibir({match}){
                 return alert("Informe o Título!")
                 else if(!descricao)
                     return alert("Descreva como descarta!")
-            if(match.params.id){
-                await api.put(`/aps/${match.params.id}`,{
+            if(id){
+                await api.put(`/aps/${id}`,{
                     tipo,
                     titulo,
                     descricao
                 }).then(() =>
-                    setRedirect(true)
+                   history.push("/")
                 )
             }else{
         await api.post('/aps',{
@@ -43,23 +49,25 @@ function Exibir({match}){
             titulo,
             descricao
         }).then(() =>
-            setRedirect(true)
+           history.push("/")
         )
     }
     }
     async function Remove(){
         const res = window.confirm('Confirme a exclusão?')
         if(res === true){
-            await api.delete(`/aps/${match.params.id}`)
-            .then(() => setRedirect(true));
+            await api.delete(`/aps/${id}`)
+            .then(() => 
+            history.push("/"))
         }
     }
     useEffect(()=>{
         Caregar();
     })
+    
+
   return (
     <S.Container>
-        {redirect && <Redirect to="/" />}
       <Header/>
         <S.Fomulario>
             <S.typeIcons>
@@ -75,6 +83,7 @@ function Exibir({match}){
 
             </S.typeIcons>
             <S.Input>
+
                 <span>TIPO DE LIXO</span>
                 <input type="text" placeholder= "Descrição" 
                 onChange={e => setTitulo(e.target.value)} value={titulo} />
@@ -86,7 +95,7 @@ function Exibir({match}){
                  onChange={e => setDescricao(e.target.value)} value={descricao}/>
             </S.TextArea>
             <S.Options>
-                {match.params.id && <button type="button" onClick={Remove} >EXCLUIR</button>}
+                {location.pathname !== "/aps"  && <button type="button" onClick={Remove} >EXCLUIR</button>}
             </S.Options>
             <S.Salva>
                 <button type="button" onClick={Salva} >SALVAR</button>

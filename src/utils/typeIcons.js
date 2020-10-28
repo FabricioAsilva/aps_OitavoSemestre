@@ -11,7 +11,7 @@ import reciclados from '../assets/reciclados.png';
 import vidros from '../assets/vidros.png';
 
 const typeIcons =[
-    null, 
+    hospitalares,
     hospitalares,
     madeiras,
     metais,

@@ -14,4 +14,5 @@ function Lista({tipo, titulo }) {
   )
 }
 
+
 export default Lista;
